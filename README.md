@@ -1,7 +1,8 @@
 # Franka Lock Unlock
 
-For Franka Emika Panda robot checkout the `panda` branch. This is for `Franka Researcher 3` robot.
-Locking and unlocking of Franka Emika FR3 joint brakes programmatically. Open or close all joint locks either from the command-line, or from any Python program. 
+
+Locking and unlocking of Franka Emika `Franka Researcher 3 (FR3)` joint brakes programmatically. Open or close all joint locks either from the command-line, or from any Python program.   
+For Franka Emika `Panda` robot checkout the `panda` branch.
 
 Also supports the activation of the Franka Control Interface (FCI) and other options.
 

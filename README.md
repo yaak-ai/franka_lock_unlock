@@ -1,18 +1,19 @@
 # Franka Lock Unlock
 
-Locking and unlocking of Franka Emika Panda joint brakes programmatically. Open or close all joint locks either from the command-line, or from any Python program.
+For Franka Emika Panda robot checkout the `panda` branch. This is for `Franka Researcher 3` robot.
+Locking and unlocking of Franka Emika FR3 joint brakes programmatically. Open or close all joint locks either from the command-line, or from any Python program. 
 
 Also supports the activation of the Franka Control Interface (FCI) and other options.
 
 ## Problem Description
 
-While the Franka Panda is a great robot for research and industrial use cases, it lacks the option of unlocking or locking its joints from a different source other than the Franka Desk Web UI. However, this is crucial if you want to automate the entire startup and shutdown phase of the robot. That is now possible with the introduction of this package.
+While the Franka FR3 is a great robot for research and industrial use cases, it lacks the option of unlocking or locking its joints from a different source other than the Franka Desk Web UI. However, this is crucial if you want to automate the entire startup and shutdown phase of the robot. That is now possible with the introduction of this package.
 
 ## Command-Line Usage
 Ensure to have python3 installed.
 
 ```
-usage: ./__init__.py [-h] [-u] [-l] [-w] [-r] [-p] [-c] [-i] hostname username password
+usage: ./__init__.py [-h] [-u] [-l] [-w] [-r] [-p] [-c] [-i] [-s] hostname username password
 
 positional arguments:
   hostname          The Franka Desk IP address or hostname, for example "1.2.3.4".
@@ -28,6 +29,7 @@ optional arguments:
   -p, --persistent  Keep the connection to the robot open persistently.
   -c, --fci         Activate the FCI.
   -i, --home        Home the gripper.
+  -s, --shutdown    Shutdown the robot (PAY ATTENTION TO TIME PASSED WHEN LAUNCHED BEFORE TURN OFF THE CONTROLLER SWITCH).
 ```
 
 ## ROS Package

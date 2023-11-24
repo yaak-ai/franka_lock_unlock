@@ -134,12 +134,29 @@ class FrankaLockUnlock:
                                     headers={'X-Control-Token': self._token})
         assert action.status_code == 200, "Error requesting brake open/close action."
         print(f'Successfully {"unlocked" if unlock else "locked"} the robot.')
+        
+    def _execution_mode(self):
+        print(f'Switch to "Execution Mode" the robot...')
+        action = self._session.post(urljoin(self._hostname, f'{constant.executionMode}'), \
+                                                        headers={'X-Control-Token': self._token})
+        assert action.status_code == 200, "Error switching to execution mode."
+        print(f'Successfully switched to execution mode.')
 
-    def run(self, unlock: bool = False, force: bool = False, wait: bool = False, request: bool = False, persistent: bool = False, fci: bool = False, home: bool = False,shutdown: bool = False) -> None:
+    def _programming_mode(self):
+        activated = "Programming Mode"
+        print(f'Switch to "{activated}" the robot...')
+        action = self._session.post(urljoin(self._hostname, constant.programmingMode), \
+                                                        headers={'X-Control-Token': self._token})
+        assert action.status_code == 200, f"Error switching to '{activated}'."
+        print(f'Successfully switched to "{activated}"')
+
+    def run(self, unlock: bool = False, force: bool = False, wait: bool = False, request: bool = False, persistent: bool = False, fci: bool = False, home: bool = False,shutdown: bool = False, execution_mode: bool = False,programming_mode: bool = False) -> None:
         assert not request or wait, "Requesting control without waiting for obtaining control is not supported."
         assert not fci or unlock, "Activating FCI without unlocking is not possible."
+        assert not fci or execution_mode, "Activating FCI without execution mode is not possible."
         assert not fci or persistent, "Activating FCI without persistence is not possible."
         assert not home or unlock, "Homing the gripper without unlocking is not possible."
+        assert not programming_mode or fci, "Switch the robot in programming mode for fci is not possible"
         self._login()
         if shutdown:
             self._shutdown()
@@ -156,6 +173,10 @@ class FrankaLockUnlock:
                             self._lock_unlock(unlock=unlock)
                             if home:
                                 self._home_gripper()
+                            if execution_mode:
+                                self._execution_mode()
+                            if programming_mode:
+                                self._programming_mode()
                             if fci:
                                 self._activate_fci()
                             return
@@ -192,12 +213,15 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--fci', action='store_true', help='Activate the FCI.')
     parser.add_argument('-i', '--home', action='store_true', help='Home the gripper.')
     parser.add_argument('-s', '--shutdown', action='store_true', help='Shutdown the robot.WORKING IN PROGRESS FOR A FEEDBACK SHUTDOWN[wait at least 3 min to be sure that the robots is shutted down]')
+    parser.add_argument('-e', '--execution_mode', action='store_true', help='Activate the execution mode')
+    parser.add_argument('-p', '--programming_mode', action='store_true', help='Activate the programming mode')
+
     args, _ = parser.parse_known_args()
     assert not args.relock or args.unlock, "Relocking without prior unlocking is not possible."
     assert not args.relock or args.persistent, "Relocking without persistence would cause an immediate unlock-lock cycle."
 
     franka_lock_unlock = FrankaLockUnlock(hostname=args.hostname, username=args.username, password=args.password, relock=args.relock)
-    franka_lock_unlock.run(unlock=args.unlock, wait=args.wait, request=args.request, persistent=args.persistent, fci=args.fci, home=args.home, shutdown=args.shutdown)
+    franka_lock_unlock.run(unlock=args.unlock, wait=args.wait, request=args.request, persistent=args.persistent, fci=args.fci, home=args.home, shutdown=args.shutdown, execution_mode=args.execution_mode,programming_mode=args.programming_mode)
 
     if args.persistent:
         print("Keeping persistent connection...")

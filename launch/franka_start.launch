@@ -9,7 +9,7 @@
           pkg="franka_lock_unlock"
           type="__init__.py"
           output="screen"
-          args="$(arg hostname) $(arg username) $(arg password) -u -l -w -r -p -c"
+          args="$(arg hostname) $(arg username) $(arg password) -u -l -w -r -p -e -c"
     />
 
     <node name="franka_control" pkg="franka_control" type="franka_control_node" output="screen" respawn="true" >

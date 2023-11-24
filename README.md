@@ -31,6 +31,8 @@ optional arguments:
   -c, --fci         Activate the FCI.
   -i, --home        Home the gripper.
   -s, --shutdown    Shutdown the robot (PAY ATTENTION TO TIME PASSED WHEN LAUNCHED BEFORE TURN OFF THE CONTROLLER SWITCH).
+  -e, --execution_mode    Activate the execution mode
+  -p, --programming_mode   Activate the programming mode
 ```
 
 ## ROS Package

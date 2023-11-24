@@ -78,6 +78,7 @@ class FrankaLockUnlock:
         assert shoutdown.status_code == 200, "Error shutting down"
         self._session.cookies.clear()
         self._logged_in = False
+        sleep(180)
         print("Successfully shuthed down.")
 
     def _get_active_token_id(self):

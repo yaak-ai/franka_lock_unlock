@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright jk-ethz
+# Original copyright jk-ethz
 # Released under GNU AGPL-3.0
 # Contact us for other licensing options.
 
 # Developed and tested on system version
-# 4.2.1
+# 5.7.2
 
 # Inspired by
 # https://github.com/frankaemika/libfranka/issues/63
@@ -19,7 +19,7 @@ from time import sleep
 from itertools import count
 import atexit
 from threading import Event
-import constant
+from franka_lock_unlock import constant
 class FrankaLockUnlock:
     def __init__(self, hostname: str, username: str, password: str, protocol: str = 'https', relock: bool = False):
         requests.packages.urllib3.disable_warnings()
@@ -196,8 +196,7 @@ class FrankaLockUnlock:
             if not persistent:
                 self._logout()
 
-
-if __name__ == '__main__':
+def main(args=None):
     parser = argparse.ArgumentParser(
                                      prog = 'FrankaLockUnlock',
                                      description = 'Lock or unlock the Franka Emika Panda joint brakes programmatically.',
@@ -227,3 +226,6 @@ if __name__ == '__main__':
     if args.persistent:
         print("Keeping persistent connection...")
         Event().wait()
+
+if __name__ == '__main__':
+    main()

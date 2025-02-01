@@ -215,7 +215,7 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--home', action='store_true', help='Home the gripper.')
     parser.add_argument('-s', '--shutdown', action='store_true', help='Shutdown the robot.WORKING IN PROGRESS FOR A FEEDBACK SHUTDOWN[wait at least 3 min to be sure that the robots is shutted down]')
     parser.add_argument('-e', '--execution_mode', action='store_true', help='Activate the execution mode')
-    parser.add_argument('-p', '--programming_mode', action='store_true', help='Activate the programming mode')
+    parser.add_argument('-m', '--programming_mode', action='store_true', help='Activate the programming mode')
 
     args, _ = parser.parse_known_args()
     assert not args.relock or args.unlock, "Relocking without prior unlocking is not possible."
